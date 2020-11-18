@@ -1,3 +1,5 @@
+// npm init -y  ||  to initialize npm
+// npm install mongoose express  ||  installs needed dependencies
 const mongoose = require('mongoose');
 const express = require('express');
 
