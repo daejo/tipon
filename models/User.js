@@ -13,7 +13,19 @@ const UserSchema = new Schema({
         required: true,
         unique: true,
         match: /^\S+@\S+$/
-    }
+    },
+    thoughts: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Thoughts'
+        }
+    ],
+    friends: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Friends'
+        }
+    ]
 });
 
 const User = model('User', UserSchema)
