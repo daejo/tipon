@@ -2,7 +2,7 @@ const { Schema, model, Types } = require('mongoose');
 
 const ReactionSchema = new Schema({ // creates a nested schema inside thoughts.
     reactionId: {
-        type: Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId, // sets type as an object id.
         default: () => new Types.ObjectId // creates the new id.
     },
     reactionBody: {

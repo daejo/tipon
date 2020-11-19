@@ -16,7 +16,7 @@ const UserSchema = new Schema({
     },
     thoughts: [ // relates thoughts to users
         {
-            type: Schema.Types.ObjectId, // sets the type to be a schema object.
+            type: Schema.Types.ObjectId, // sets the type to be an object id.
             ref: 'Thought' // model being referred to and used.
         }
     ],
