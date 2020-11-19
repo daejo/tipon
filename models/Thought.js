@@ -1,4 +1,25 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
+
+const ReactionSchema = new Schema({
+    reactionId: {
+        type: Schema.Types.ObjectId,
+        default: () => new Types.ObjectId // creates the new id.
+    },
+    reactionBody: {
+        type: String,
+        required: true,
+        maxlength: 280
+    },
+    username: {
+        type: String,
+        required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        get: ((createdAtVal) => dateFormat(createdAtVal))
+    }
+});
 
 const ThoughtSchema = new Schema({
     thoughtText: {
@@ -11,5 +32,10 @@ const ThoughtSchema = new Schema({
         type: Date, // set as date for type.
         default: Date.now, // sets current date.
         get: ((createdAtVal) => dateFormat(createdAtVal)) // getter method to convert date value into a more readable syntax.
-    }
-})
+    },
+    username: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    reactions: [ReactionSchema]  
+});
