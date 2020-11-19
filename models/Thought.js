@@ -1,6 +1,6 @@
 const { Schema, model, Types } = require('mongoose');
 
-const ReactionSchema = new Schema({
+const ReactionSchema = new Schema({ // creates a nested schema inside thoughts.
     reactionId: {
         type: Schema.Types.ObjectId,
         default: () => new Types.ObjectId // creates the new id.
@@ -37,7 +37,7 @@ const ThoughtSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    reactions: [ReactionSchema]  
+    reactions: [ReactionSchema] // relates to the nested schema 'Reaction Schema'.  
 });
 
 // get total count of reactionss on retrieval.
