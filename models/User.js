@@ -4,10 +4,16 @@ const { Schema, model } = require('mongoose'); // imports Schema and model from 
 const UserSchema = new Schema({
     userName: {
         type: String,
-        unique: true,
         required: true,
+        unique: true,
         trim: true
     },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        match: /^\S+@\S+$/
+    }
 });
 
 const User = model('User', UserSchema)
