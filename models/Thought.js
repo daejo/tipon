@@ -39,3 +39,12 @@ const ThoughtSchema = new Schema({
     },
     reactions: [ReactionSchema]  
 });
+
+// get total count of reactionss on retrieval.
+ThoughtSchema.virtual('reactionCount').get(function() {
+    return this.reactions.length;
+});
+
+const Thought = model('Thought', ThoughtSchema); // creates the Thought model.
+
+module.exports = Thought; // exports the Thought model.
