@@ -13,12 +13,12 @@ router.get('/', (req, res) => {
     });
 });
 // searches for a single user.
-router.get('/:id', ({ params }, res) {
+router.get('/:id', ({ params }, res) => {
     User.findOne({ _id: params.id})
     .select('-__v')
     .then(dbUserData => {
         if (!dbUserData) {
-            res.status(404).json({ message: 'No user found with this id' })
+            res.status(404).json({ message: 'No user found with this id' });
             return;
         }
         res.json(dbUserData);
@@ -38,5 +38,15 @@ router.post('/', ({ body }, res) => {
 });
 
 //========== EDIT USER ==========//
-
+router.put('/:id', ({params, body}, res) => {
+    User.findOneAndUpdate({ _id: params.id }, body)
+    .then(dbUserData => {
+        if (!dbUserData) {
+            res.status(404).json({ message: 'No user found with this id' });
+            return;
+        }
+        res.json(dbUserData);
+    })
+    .catch(err => res.status(400).json(err))
+});
 
