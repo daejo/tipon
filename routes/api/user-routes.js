@@ -1,10 +1,14 @@
-const { User, Thought } = require('../../models');
+const { User } = require('../../models');
 const router = require('express').Router();
 
 //========== SEARCH USER ==========//
 // searches for all the users.
 router.get('/', (req, res) => {
     User.find({})
+    .populate({
+        path: 'thoughts',
+        select: '-__v' // minus so we dont get it returned
+    })
     .select('-__v') // gets rid of 'v' in the body
     .then(dbUserData => res.json(dbUserData))
     .catch(err => {
@@ -12,9 +16,14 @@ router.get('/', (req, res) => {
         res.status(400).json(err);
     });
 });
+
 // searches for a single user.
 router.get('/:id', ({ params }, res) => {
     User.findOne({ _id: params.id})
+    .populate({
+        path: 'thoughts',
+        select: '-__v' // minus so we dont get it returned
+    })
     .select('-__v')
     .then(dbUserData => {
         if (!dbUserData) {
@@ -83,3 +92,4 @@ router.post('/:userId/friends/:friendId', ({ body }, res) => {
     .catch(err => res.status(400).json(err))
 });
 
+module.exports = router;

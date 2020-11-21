@@ -4,7 +4,11 @@ const router = require('express').Router();
 //========== SEARCH USER ==========//
 // searches for all the thoughts.
 router.get('/', (req, res) => {
-    User.find({})
+    Thought.find({})
+    .populate({
+        path: 'users',
+        select: '-__v' // minus so we dont get it returned
+    })
     .select('-__v') // gets rid of 'v' in the body
     .then(dbUserData => res.json(dbUserData))
     .catch(err => {
@@ -14,7 +18,11 @@ router.get('/', (req, res) => {
 });
 // searches for a single thought.
 router.get('/:id', ({ params }, res) => {
-    User.findOne({ _id: params.id})
+    Thought.findOne({ _id: params.id})
+    .populate({
+        path: 'users',
+        select: '-__v' // minus so we dont get it returned
+    })
     .select('-__v')
     .then(dbUserData => {
         if (!dbUserData) {
@@ -37,7 +45,7 @@ router.post('/:userId', ({ params, body }, res) => {
     .then(({ _id }) => {
         return User.findOneAndUpdate(
             { _id: params.userId },
-            { $push: { thought: _id } },
+            { $push: { thoughts: _id } },
             { new: true }
         );
     })
@@ -117,6 +125,6 @@ router.delete('/:thoughtId/reactions', ({ params }, res) => {
     )
         .then(dbUserData => res.json(dbUserData))
         .catch(err => res.json(err));
-})
+});
 
-
+module.exports = router;
