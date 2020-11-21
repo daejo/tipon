@@ -90,3 +90,33 @@ router.delete('/:userId/:thoughtId', ({ params }, res) => {
     })
     .catch(err => res.json(err));
 });
+
+//========== MAKE A REACTION ==========//
+router.post('/:thoughtId/reactions', ({ params, body }, res) => {
+    Thought.findOneAndUpdate(
+        { _id: params.thoughtId },
+        { $push: {reaction: body } },
+        { new: true }
+    )
+        .then(dbUserData => {
+            if (!dbUserData) {
+                res.status(404).json({ message: 'No thought found with this id!' });
+                return;
+            }
+            res.json(dbUserData);
+        })
+        .catch(err => res.json(err));
+});
+
+//========== DELETE A SINGLE REACTION ==========//
+router.delete('/:thoughtId/reactions', ({ params }, res) => {
+    Thought.findOneAndUpdate(
+        { _id: params.thoughtId },
+        { $pull: { reaction: { reactionId: params.reactionId } } },
+        { new: true }
+    )
+        .then(dbUserData => res.json(dbUserData))
+        .catch(err => res.json(err));
+})
+
+
