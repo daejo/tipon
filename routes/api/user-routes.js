@@ -29,7 +29,7 @@ router.get('/:id', ({ params }, res) => {
     })
 });
 
-//========== MAKE USER ==========//
+//========== MAKE A USER ==========//
 // sets up a new user.
 router.post('/', ({ body }, res) => {
     User.create(body)
@@ -37,7 +37,7 @@ router.post('/', ({ body }, res) => {
         .catch(err => res.status(400).json(err));
 });
 
-//========== EDIT USER ==========//
+//========== EDIT A USER ==========//
 router.put('/:id', ({params, body}, res) => {
     User.findOneAndUpdate({ _id: params.id }, body)
     .then(dbUserData => {
@@ -50,7 +50,7 @@ router.put('/:id', ({params, body}, res) => {
     .catch(err => res.status(400).json(err))
 });
 
-//========== DELETE USER ==========//
+//========== DELETE A USER ==========//
 router.delete('/:id', ({params, body}, res) => {
     User.findOneAndDelete({ _id: params.id }, body)
     .then(dbUserData => {

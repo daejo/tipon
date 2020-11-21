@@ -29,7 +29,7 @@ router.get('/:id', ({ params }, res) => {
     })
 });
 
-//========== MAKE THOUGHT ==========//
+//========== MAKE A THOUGHT ==========//
 // sets up a new thought.
 router.post('/:userId', ({ params, body }, res) => {
     console.log(body);
@@ -51,7 +51,7 @@ router.post('/:userId', ({ params, body }, res) => {
     .catch(err => res.json(err));
 });
 
-//========== EDIT THOUGHT ==========//
+//========== EDIT A THOUGHT ==========//
 router.put('/:userId/:thoughtId', ({ params, body }, res) => {
     Thought.findOneAndUpdate(
         { _id: params.thoughtId },
@@ -66,4 +66,27 @@ router.put('/:userId/:thoughtId', ({ params, body }, res) => {
             res.json(dbUserData);
         })
         .catch(err => res.json(err));
+});
+
+//========== DELETE A THOUGHT ==========//
+router.delete('/:userId/:thoughtId', ({ params }, res) => {
+    Thought.findOneAndDelete({ _id: params.thoughtId })
+    .then(deletedThought => {
+        if (!deletedThought) {
+            return res.status(404).json({ message: 'No thought with this id!'});
+        }
+        return Thought.findOneAndUpdate(
+            { _id: params.userId },
+            { $pull: { comments: params.thoughtId} },
+            { new: true }
+        );
+    })
+    .then(dbUserData => {
+        if (!dbUserData) {
+            res.status(404).json({ message: 'No user found with this id!'});
+            return;
+        }
+        res.json(dbUserData);
+    })
+    .catch(err => res.json(err));
 });
