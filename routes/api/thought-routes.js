@@ -1,7 +1,7 @@
 const { User, Thought } = require('../../models');
 const router = require('express').Router();
 
-//========== SEARCH USER ==========//
+//========== SEARCH THOUGHT ==========//
 // searches for all the thoughts.
 router.get('/', (req, res) => {
     Thought.find({})
@@ -62,10 +62,7 @@ router.post('/:userId', ({ params, body }, res) => {
 //========== EDIT A THOUGHT ==========//
 router.put('/:userId/:thoughtId', ({ params, body }, res) => {
     Thought.findOneAndUpdate(
-        { _id: params.thoughtId },
-        { $push: {replies: body } },
-        { new: true }
-    )
+        { _id: params.thoughtId }, body)
         .then(dbUserData => {
             if (!dbUserData) {
                 res.status(404).json({ message: 'No id found with this id!' });
