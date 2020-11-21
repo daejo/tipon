@@ -50,3 +50,20 @@ router.post('/:userId', ({ params, body }, res) => {
     })
     .catch(err => res.json(err));
 });
+
+//========== EDIT THOUGHT ==========//
+router.put('/:userId/:thoughtId', ({ params, body }, res) => {
+    Thought.findOneAndUpdate(
+        { _id: params.thoughtId },
+        { $push: {replies: body } },
+        { new: true }
+    )
+        .then(dbUserData => {
+            if (!dbUserData) {
+                res.status(404).json({ message: 'No id found with this id!' });
+                return;
+            }
+            res.json(dbUserData);
+        })
+        .catch(err => res.json(err));
+});
