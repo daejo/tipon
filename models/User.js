@@ -1,6 +1,5 @@
 const { Schema, model, Types } = require('mongoose'); // imports Schema and model from mongoose package.
 
-
 const UserSchema = new Schema({
     userName: {
         type: String,

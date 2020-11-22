@@ -1,4 +1,4 @@
-const { User } = require('../../models');
+const { User, Thought } = require('../../models');
 const router = require('express').Router();
 
 //========== SEARCH USER ==========//
@@ -73,10 +73,10 @@ router.delete('/:id', ({params, body}, res) => {
 });
 
 //========== ADD A FRIEND ==========//
-router.post('/:userId/friends/:friendId', ({ body }, res) => {
+router.post('/:userId/friends/:friendId', ({ params, body }, res) => {
     User.findOneAndUpdate(
         { _id: params.userId },
-        { $push: { friends: params.friendId} },
+        { $push: { friends: body} },
         { new: true })
         .then(dbUserData => {
             // If no user is found, send 404
@@ -93,16 +93,14 @@ router.post('/:userId/friends/:friendId', ({ body }, res) => {
 });
 
 //========== DELETE A FRIEND ==========//
-router.post('/:userId/friends/:friendId', ({ body }, res) => {
-    User.findOneAndDelete({ _id: params.id }, body)
-    .then(dbUserData => {
-        if (!dbUserData) {
-            res.status(404).json({ message: 'No user found with this id' });
-            return;
-        }
-        res.json(dbUserData);
-    })
-    .catch(err => res.status(400).json(err))
+router.delete('/:userId/friends/:friendId', ({ params }, res) => {
+    User.findOneAndUpdate(
+        { _id: params.userId },
+        { $pull: { friends: { friendId: params.friendId } } },
+        { new: true }
+    )
+        .then(dbUserData => res.json(dbUserData))
+        .catch(err => res.json(err));
 });
 
 module.exports = router;

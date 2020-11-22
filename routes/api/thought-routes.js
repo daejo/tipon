@@ -62,14 +62,14 @@ router.post('/:userId', ({ params, body }, res) => {
 //========== EDIT A THOUGHT ==========//
 router.put('/:userId/:thoughtId', ({ params, body }, res) => {
     Thought.findOneAndUpdate(
-        { _id: params.thoughtId }, body)
+        { _id: params.thoughtId }, body, { new: true})
         .then(dbUserData => {
             if (!dbUserData) {
                 res.status(404).json({ message: 'No id found with this id!' });
                 return;
             }
             res.json(dbUserData);
-        })
+       })
         .catch(err => res.json(err));
 });
 
@@ -100,7 +100,7 @@ router.delete('/:userId/:thoughtId', ({ params }, res) => {
 router.post('/:thoughtId/reactions', ({ params, body }, res) => {
     Thought.findOneAndUpdate(
         { _id: params.thoughtId },
-        { $push: {reaction: body } },
+        { $push: {reactions: body } },
         { new: true }
     )
     .populate({
@@ -121,7 +121,7 @@ router.post('/:thoughtId/reactions', ({ params, body }, res) => {
 router.delete('/:thoughtId/reactions', ({ params }, res) => {
     Thought.findOneAndUpdate(
         { _id: params.thoughtId },
-        { $pull: { reaction: { reactionId: params.reactionId } } },
+        { $pull: { reactions: { reactionId: params.reactionId } } },
         { new: true }
     )
         .then(dbUserData => res.json(dbUserData))
