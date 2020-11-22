@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
 router.get('/:id', ({ params }, res) => {
     Thought.findOne({ _id: params.id})
     .populate({
-        path: 'users',
+        path: 'reactions',
         select: '-__v' // minus so we dont get it returned
     })
     .select('-__v')
@@ -103,6 +103,10 @@ router.post('/:thoughtId/reactions', ({ params, body }, res) => {
         { $push: {reaction: body } },
         { new: true }
     )
+    .populate({
+        path: 'reactions',
+        select: '-__v' // minus so we dont get it returned
+    })
         .then(dbUserData => {
             if (!dbUserData) {
                 res.status(404).json({ message: 'No thought found with this id!' });

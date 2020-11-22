@@ -37,8 +37,15 @@ const ThoughtSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    reactions: [ReactionSchema] // relates to the nested schema 'Reaction Schema'.  
-});
+    reactions: [ReactionSchema]}, // relates to the nested schema 'Reaction Schema'.  
+    {
+      toJSON: {
+        virtuals: true,
+        getters: true
+      },
+      id: false
+    }
+);
 
 // get total count of reactionss on retrieval.
 ThoughtSchema.virtual('reactionCount').get(function() {
