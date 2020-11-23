@@ -60,7 +60,7 @@ router.post('/:userId', ({ params, body }, res) => {
 });
 
 //========== EDIT A THOUGHT ==========//
-router.put('/:userId/:thoughtId', ({ params, body }, res) => {
+router.put('/:thoughtId', ({ params, body }, res) => {
     Thought.findOneAndUpdate(
         { _id: params.thoughtId }, body, { new: true})
         .then(dbUserData => {
@@ -80,18 +80,18 @@ router.delete('/:userId/:thoughtId', ({ params }, res) => {
         if (!deletedThought) {
             return res.status(404).json({ message: 'No thought with this id!'});
         }
-        return Thought.findOneAndUpdate(
+        return User.findOneAndUpdate(
             { _id: params.userId },
-            { $pull: { comments: params.thoughtId} },
+            { $pull: { thoughts: params.thoughtId} },
             { new: true }
         );
     })
-    .then(dbUserData => {
-        if (!dbUserData) {
-            res.status(404).json({ message: 'No user found with this id!'});
+    .then(dbThoughtData => {
+        if (!dbThoughtData) {
+            res.status(404).json({ message: 'No thought found with this id!'});
             return;
         }
-        res.json(dbUserData);
+        res.json(dbThoughtData);
     })
     .catch(err => res.json(err));
 });
@@ -118,14 +118,15 @@ router.post('/:thoughtId/reactions', ({ params, body }, res) => {
 });
 
 //========== DELETE A SINGLE REACTION ==========//
-router.delete('/:thoughtId/reactions', ({ params }, res) => {
+router.delete('/:thoughtId/reactions/:reactionId', ({ params }, res) => {
     Thought.findOneAndUpdate(
         { _id: params.thoughtId },
         { $pull: { reactions: { reactionId: params.reactionId } } },
         { new: true }
     )
-        .then(dbUserData => res.json(dbUserData))
+        .then(dbReactionData => res.json(dbReactionData))
         .catch(err => res.json(err));
-});
+}
+);
 
 module.exports = router;

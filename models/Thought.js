@@ -19,8 +19,14 @@ const ReactionSchema = new Schema({ // creates a nested schema inside thoughts.
         type: Date,
         default: Date.now,
         get: ((createdAtVal) => dateFormat(createdAtVal))
+    }},
+    {
+        toJSON: {
+          getters: true
+        },
+        id: false
     }
-});
+);
 
 const ThoughtSchema = new Schema({
     thoughtText: {
