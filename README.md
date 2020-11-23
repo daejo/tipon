@@ -5,7 +5,7 @@
 
   ## Description 
 
-  _Create users, add friends, post thoughts, and react to thoughts in this social media api route made in node.js with the help of express and mondodb packages._
+  _Create users, add friends, post thoughts, and react to thoughts in this social media api route made in node.js with the help of express and mongodb packages._
  
   ## Table of Contents
 
