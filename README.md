@@ -17,11 +17,11 @@
 
   ## Installation
 
-    * _Make sure you have cloned the repository files from [here](https://github.com/daejo/tipon)._
-    * _You will also need an API development environment software [Insomnia](https://insomnia.rest/)._
-    * _Once everything is set up you can continue the rest of the installation process._
-      * _Open terminal and get to the specific root file where your saved clone file is._
-        * _Run your server by typing: ```npm start```_
+  * _Make sure you have cloned the repository files from [here](https://github.com/daejo/tipon)._
+  * _You will also need an API development environment software [Insomnia](https://insomnia.rest/)._
+  * _Once everything is set up you can continue the rest of the installation process._
+    * _Open terminal and get to the specific root file where your saved clone file is._
+      * _Run your server by typing: ```npm start```_
 
   * _After running the installation process keep your terminal running and then open your preferred API development environment._
 
